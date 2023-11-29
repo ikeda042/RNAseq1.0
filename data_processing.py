@@ -62,6 +62,6 @@ class RNAseq:
         print( tpm.head())  # 最初の数行を表示
         # set the fitst column as gene name
         tpm.index = df['gene']
-        tpm.to_csv('tpm.csv', sep=',')  # tpmの出力
+        tpm.to_csv('data.csv', sep=',')  # データの出力
 
 RNAseq().analyse()
