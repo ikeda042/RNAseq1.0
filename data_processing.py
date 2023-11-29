@@ -33,14 +33,13 @@ class RNAseq:
         }
 
         with open("assembly.fasta_rsem_index.idx.fa") as fp:
-            lines = [i for i in fp.readlines()] 
-        genes: list[str] = []
-        seqs:list[str] = []
-        for n,i in enumerate(lines):
-            if n%2 != 0:
-                seqs.append(i.strip())
-            else:
-                genes.append(i.strip().split(" ")[0][1:20])
+            genes: list[str] = []
+            seqs:list[str] = []
+            for n,i in enumerate([i for i in fp.readlines()] ):
+                if n%2 != 0:
+                    seqs.append(i.strip())
+                else:
+                    genes.append(i.strip().split(" ")[0][1:20])
         self.bp_list: dict[str,str] = {i:j for i,j in zip(genes,seqs)
         }
     
@@ -58,8 +57,8 @@ class RNAseq:
         # TPMの計算（RPKM / RPKMの合計）* 1,000,000
         tpm = rpkm.div(rpkm_sum) * 1e6
 
-        # 結果の出力
-        print( tpm.head())  # 最初の数行を表示
+        # Debug
+        print( tpm.head())  
         # set the fitst column as gene name
         tpm.index = df['gene']
         tpm.to_csv('data.csv', sep=',')  # データの出力
